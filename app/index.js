@@ -98,7 +98,7 @@ function findandreplace(dir) {
     file = path.join(dir, file);
     var stat = fs.statSync(file);
 
-    if (stat.isFile() && (path.extname(file) == '.php' || path.extname(file) == '.css' || path.extname(file) == '.js'|| path.extname(file) == '.json')) {
+    if (stat.isFile() && (path.extname(file) == '.php' || path.extname(file) == '.css' )) {
       self.log.info('Find and replace epigone in ' + chalk.yellow(file));
       var data = fs.readFileSync(file, 'utf8');
       var result;
