@@ -109,8 +109,8 @@ function findandreplace(dir) {
       var result;
       result = data.replace(/Text Domain: epigone/g, "Text Domain: " + _.slugify(self.themename) + "");
       result = result.replace(/'epigone'/g, "'" + _.slugify(self.themename) + "'");
-      result = result.replace(/Epigone_/g, "" + _.slugify(self.themename) + "_");
-      result = result.replace(/'EPIGONE/g, "'" + _.slugify(self.themename) + "");
+      result = result.replace(/Epigone_/g, "" + _.underscored(_.slugify(self.themename)) + "_");
+      result = result.replace(/'EPIGONE/g, "'" + _.underscored(_.slugify(self.themename)) + "");
       result = result.replace(/epigone_/g, _.underscored(_.slugify(self.themename)) + "_");
       result = result.replace(/ epigone/g, " " + self.themename);
       result = result.replace(/epigone-/g, _.slugify(self.themename) + "-");
@@ -133,8 +133,10 @@ function findandreplace(dir) {
     else if (stat.isFile() && path.basename(file) == 'gulpfile.js') {
       var data = fs.readFileSync(file, 'utf8');
       var result;
-      self.log.info('BrowserSync proxy host replace.' + chalk.yellow(file));
-      result = data.replace(/your-domain.dev/g, "" + _.slugify(self.devurl) + "");
+      self.log.info('replace browserSync proxy host' + chalk.yellow(file));
+      result = data.replace(/your-domain.dev/g, "" + self.devurl + "");
+      result = result.replace(/epigone_main/g, "" + _.underscored(_.slugify(self.themename)) + "_main");
+      result = result.replace(/epigone_scripts/g, "" + _.underscored(_.slugify(self.themename)) + "_scripts");
     }
     else if (stat.isFile() && path.basename(file) == 'README.md') {
       self.log.info('Updating ' + chalk.yellow(file));
