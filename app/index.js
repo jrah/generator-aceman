@@ -69,6 +69,11 @@ EpigoneGenerator.prototype.askFor = function askFor() {
     name: 'themedescription',
     message: 'Enter the theme description:',
     default: 'A starter theme based on _s'
+  },
+  {
+    name: 'devurl',
+    message: 'browserSync Proxy Domain?',
+    default: 'your-domain.dev'
   }
   ];
 
@@ -78,7 +83,7 @@ EpigoneGenerator.prototype.askFor = function askFor() {
     this.author = props.author;
     this.authoruri = props.authoruri;
     this.themedescription = props.themedescription;
-    this.sassBootstrap = props.sassBootstrap;
+    this.devurl = props.devurl;
     cb();
   }.bind(this));
 };
@@ -104,8 +109,8 @@ function findandreplace(dir) {
       var result;
       result = data.replace(/Text Domain: epigone/g, "Text Domain: " + _.slugify(self.themename) + "");
       result = result.replace(/'epigone'/g, "'" + _.slugify(self.themename) + "'");
-      result = result.replace(/Epigone_/g, "'" + _.slugify(self.themename) + "'");
-      result = result.replace(/'EPIGONE/g, "'" + _.slugify(self.themename) + "'");
+      result = result.replace(/Epigone_/g, "" + _.slugify(self.themename) + "_");
+      result = result.replace(/'EPIGONE/g, "'" + _.slugify(self.themename) + "");
       result = result.replace(/epigone_/g, _.underscored(_.slugify(self.themename)) + "_");
       result = result.replace(/ epigone/g, " " + self.themename);
       result = result.replace(/epigone-/g, _.slugify(self.themename) + "-");
@@ -124,6 +129,12 @@ function findandreplace(dir) {
     else if (stat.isFile() && path.basename(file) == 'epigone.pot') {
       self.log.info('Renaming language file ' + chalk.yellow(file));
       fs.renameSync(file, path.join(path.dirname(file), _.slugify(self.themename) + '.pot'));
+    }
+    else if (stat.isFile() && path.basename(file) == 'gulpfile.js') {
+      var data = fs.readFileSync(file, 'utf8');
+      var result;
+      self.log.info('BrowserSync proxy host replace.' + chalk.yellow(file));
+      result = data.replace(/your-domain.dev/g, "" + _.slugify(self.devurl) + "");
     }
     else if (stat.isFile() && path.basename(file) == 'README.md') {
       self.log.info('Updating ' + chalk.yellow(file));
