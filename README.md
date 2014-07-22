@@ -29,7 +29,7 @@ Answer some questions in the prompt and you're done!
 Run
 
 ```
-gulp
+gulp watch
 ```
 to watch `.scss` files and browser sync.
 
