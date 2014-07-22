@@ -11,7 +11,7 @@
   "homepage": "https://github.com/1shiharaT/generator-epigone",
   "bugs": "https://github.com/1shiharaT/generator-epigone/issues",
   "author": {
-    "name": "Karina"
+    "name": "1shiharaT"
   },
   "main": "app/index.js",
   "repository": {
