@@ -1,6 +1,6 @@
 # generator-epigone [![Build Status](https://secure.travis-ci.org/kdo/generator-wp-underscores.png?branch=master)](https://travis-ci.org/kdo/generator-wp-underscores)
 
-A very simple [Yeoman](http://yeoman.io) generator for WordPress boilerplate theme [epigone](github.com/1shiharaT/epigone).
+A very simple [Yeoman](http://yeoman.io) generator for WordPress boilerplate theme [epigone](https://github.com/1shiharaT/epigone).
 
 
 ## Getting Started
