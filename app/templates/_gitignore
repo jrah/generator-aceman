@@ -1,0 +1,14 @@
+node_modules
+bower_components
+.sass-cache
+.DS_Store
+
+
+themes/twentyfifteen
+themes/twentyfourteen
+themes/twentyfourteen
+themes/twentythirteen
+themes/twenty*
+
+.travis.yml
+npm-debug.log

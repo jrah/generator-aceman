@@ -48,22 +48,22 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
   {
     name: 'themename',
     message: 'What is the name of your theme?',
-    default: 'My Theme'
+    default: 'Theme'
   },
   {
     name: 'themeuri',
     message: 'What is the URL of your theme?',
-    default: 'http://www.google.com'
+    default: 'http://bitbucket.org/jhome'
   },
   {
     name: 'author',
     message: 'What is your name?',
-    default: 'Automattic'
+    default: 'James Home'
   },
   {
     name: 'authoruri',
     message: 'What is your URL?',
-    default: 'http://automattic.com/'
+    default: 'http://jameshome.co'
   },
   {
     name: 'themedescription',
@@ -73,7 +73,7 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
   {
     name: 'devurl',
     message: 'browserSync Proxy Domain?',
-    default: 'your-domain.dev'
+    default: 'domain.dev'
   }
   ];
 
@@ -88,10 +88,24 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
   }.bind(this));
 };
 
-JrahSWPGenerator.prototype.installepigone = function installepigone() {
+JrahSWPGenerator.prototype.installunderscores = function installunderscores() {
   this.startertheme = 'https://github.com/Automattic/_s/archive/master.tar.gz';
-  this.log.info('Downloading & extracting ' + chalk.yellow('epigone'));
+  this.log.info('Downloading & extracting ' + chalk.yellow('Underscores'));
   this.tarball(this.startertheme, '.', this.async());
+};
+
+JrahSWPGenerator.prototype.addfiles = function addfiles() {
+  this.log(chalk.yellow('Creating dev folders and files'));
+  this.mkdir('images');
+  this.mkdir('fonts');
+  this.mkdir('css');
+  this.mkdir('src/scss');
+  this.copy('_main.scss', 'src/scss/main.scss');
+  this.mkdir('js/vendor');
+  this.copy('_package.json', 'package.json');
+  this.copy('_bower.json', 'bower.json');
+  this.copy('GulpFile.js');
+  this.copy('_gitignore', '.gitignore');
 };
 
 function findandreplace(dir) {
@@ -122,6 +136,7 @@ function findandreplace(dir) {
         result = result.replace(/(Version: )(.+)/g, '$10.0.1');
         result = result.replace(/(\*\/\n)/, '$1@import url("css/main.css");');
       }
+
       else if (file == 'footer.php') {
         self.log.info('Updating theme information in ' + file);
         result = result.replace(/http:\/\/automattic.com\//g, self.authoruri);
@@ -133,18 +148,6 @@ function findandreplace(dir) {
         result = result.replace(/(get_stylesheet_uri\(\) \);\n)(\n.wp_enqueue_script\()/, themejs);
       }
       fs.writeFileSync(file, result, 'utf8');
-    }
-    else if (stat.isFile() && path.basename(file) == '_s.pot') {
-      self.log.info('Renaming language file ' + chalk.yellow(file));
-      fs.renameSync(file, path.join(path.dirname(file), _.slugify(self.themename) + '.pot'));
-    }
-    else if (stat.isFile() && path.basename(file) == 'gulpfile.js') {
-      var data = fs.readFileSync(file, 'utf8');
-      var result;
-      self.log.info('replace browserSync proxy host' + chalk.yellow(file));
-      result = data.replace(/your-domain.dev/g, "" + self.devurl + "");
-      // result = result.replace(/epigone_main/g, "" + _.underscored(_.slugify(self.themename)) + "_main");
-      // result = result.replace(/epigone_scripts/g, "" + _.underscored(_.slugify(self.themename)) + "_scripts");
     }
     else if (stat.isFile() && path.basename(file) == 'README.md') {
       self.log.info('Updating ' + chalk.yellow(file));
@@ -163,20 +166,6 @@ JrahSWPGenerator.prototype.renameunderscores = function renameunderscores() {
   this.log.ok('Done replacing string ' + chalk.yellow('_s'));
 };
 
-JrahSWPGenerator.prototype.addfiles = function addfiles() {
-  this.log(chalk.yellow('Creating dev folders and files'));
-  this.mkdir('images');
-  this.mkdir('fonts');
-  this.mkdir('css');
-  this.mkdir('css/sass');
-  this.copy('_main.scss', 'css/sass/main.scss');
-  this.mkdir('js/vendor');
-  this.copy('_theme.js', 'js/theme.js');
-  this.copy('_package.json', 'package.json');
-  this.copy('_bower.json', 'bower.json');
-  this.copy('GulpFile.js');
-  this.copy('_gitignore', '.gitignore');
-};
 
 JrahSWPGenerator.prototype.sassboostrap = function sassboostrap() {
   if (this.sassBootstrap) {

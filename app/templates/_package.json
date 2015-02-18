@@ -1,0 +1,12 @@
+{
+  "name": "<%= _.slugify(themename) %>",
+  "author": "<%= author %>",
+  "private": true,
+  "version": "0.0.1",
+  "devDependencies": {
+    "browser-sync": "^1.7.2",
+    "gulp": "^3.8.10",
+    "gulp-notify": "^2.0.1",
+    "gulp-ruby-sass": "^0.7.1"
+    }
+}
