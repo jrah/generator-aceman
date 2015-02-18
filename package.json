@@ -1,29 +1,29 @@
 {
-  "name": "generator-epigone",
-  "version": "0.0.5",
-  "description": "Yeoman generator for epigone starter theme",
+  "name": "generator-jrah-underscores-wp",
+  "version": "0.0.6",
+  "description": "Yeoman generator for _s theme",
   "keywords": [
     "yeoman-generator",
     "wordpress",
-    "epigone",
+    "jrah",
     "boilerplate"
   ],
-  "homepage": "https://github.com/1shiharaT/generator-epigone",
-  "bugs": "https://github.com/1shiharaT/generator-epigone/issues",
+  "homepage": "https://github.com/jrah/generator-jrah-underscores-wp",
+  "bugs": "https://github.com/jrah/generator-jrah-underscores-wp/issues",
   "author": {
     "name": "1shiharaT"
   },
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/1shiharaT/generator-epigone.git"
+    "url": "git://github.com/jrah/generator-jrah-underscores-wp.git"
   },
   "scripts": {
     "test": "mocha"
   },
   "dependencies": {
-    "yeoman-generator": "~0.13.0",
-    "chalk": "~0.2.0"
+    "chalk": "~0.2.0",
+    "yeoman-generator": "^0.13.4"
   },
   "devDependencies": {
     "mocha": "~1.12.0"

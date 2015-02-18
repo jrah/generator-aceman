@@ -26,7 +26,7 @@ chalk.yellow("\n  (( / ))     ") + chalk.red(".----~-.\\        \\-'            
 "\n               " + chalk.red("///-._ _ _ _ _ _ _}^ - - - - ~                     ~-- ,.-~") +
 "\n                                                                  " + chalk.red("/.-~          ");
 
-var EpigoneGenerator = module.exports = function EpigoneGenerator(args, options, config) {
+var JrahSWPGenerator = module.exports = function JrahSWPGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
   this.on('end', function () {
@@ -36,9 +36,9 @@ var EpigoneGenerator = module.exports = function EpigoneGenerator(args, options,
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 };
 
-util.inherits(EpigoneGenerator, yeoman.generators.Base);
+util.inherits(JrahSWPGenerator, yeoman.generators.Base);
 
-EpigoneGenerator.prototype.askFor = function askFor() {
+JrahSWPGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
   // have Yeoman greet the user.
@@ -53,7 +53,7 @@ EpigoneGenerator.prototype.askFor = function askFor() {
   {
     name: 'themeuri',
     message: 'What is the URL of your theme?',
-    default: 'http://epigone.me'
+    default: 'http://www.google.com'
   },
   {
     name: 'author',
@@ -88,8 +88,8 @@ EpigoneGenerator.prototype.askFor = function askFor() {
   }.bind(this));
 };
 
-EpigoneGenerator.prototype.installepigone = function installepigone() {
-  this.startertheme = 'https://github.com/1shiharaT/epigone/archive/master.tar.gz';
+JrahSWPGenerator.prototype.installepigone = function installepigone() {
+  this.startertheme = 'https://github.com/Automattic/_s/archive/master.tar.gz';
   this.log.info('Downloading & extracting ' + chalk.yellow('epigone'));
   this.tarball(this.startertheme, '.', this.async());
 };
@@ -103,17 +103,15 @@ function findandreplace(dir) {
     file = path.join(dir, file);
     var stat = fs.statSync(file);
 
-    if (stat.isFile() && (path.extname(file) == '.php' || path.extname(file) == '.css' )) {
-      self.log.info('Find and replace epigone in ' + chalk.yellow(file));
+    if (stat.isFile() && (path.extname(file) == '.php' || path.extname(file) == '.css')) {
+      self.log.info('Find and replace _s in ' + chalk.yellow(file));
       var data = fs.readFileSync(file, 'utf8');
       var result;
-      result = data.replace(/Text Domain: epigone/g, "Text Domain: " + _.slugify(self.themename) + "");
-      result = result.replace(/'epigone'/g, "'" + _.slugify(self.themename) + "'");
-      result = result.replace(/Epigone_/g, "" + _.underscored(_.slugify(self.themename)) + "_");
-      result = result.replace(/'EPIGONE/g, "'" + _.underscored(_.slugify(self.themename)) + "");
-      result = result.replace(/epigone_/g, _.underscored(_.slugify(self.themename)) + "_");
-      result = result.replace(/ epigone/g, " " + self.themename);
-      result = result.replace(/epigone-/g, _.slugify(self.themename) + "-");
+      result = data.replace(/Text Domain: _s/g, "Text Domain: " + _.slugify(self.themename) + "");
+      result = result.replace(/'_s'/g, "'" + _.slugify(self.themename) + "'");
+      result = result.replace(/_s_/g, _.underscored(_.slugify(self.themename)) + "_");
+      result = result.replace(/ _s/g, " " + self.themename);
+      result = result.replace(/_s-/g, _.slugify(self.themename) + "-");
       if (file == 'style.css') {
         self.log.info('Updating theme information in ' + file);
         result = result.replace(/(Theme Name: )(.+)/g, '$1' + self.themename);
@@ -124,9 +122,19 @@ function findandreplace(dir) {
         result = result.replace(/(Version: )(.+)/g, '$10.0.1');
         result = result.replace(/(\*\/\n)/, '$1@import url("css/main.css");');
       }
+      else if (file == 'footer.php') {
+        self.log.info('Updating theme information in ' + file);
+        result = result.replace(/http:\/\/automattic.com\//g, self.authoruri);
+        result = result.replace(/Automattic/g, self.author);
+      }
+      else if (file == 'functions.php') {
+        self.log.info('Updating theme information in ' + file);
+        var themejs = "$1  wp_enqueue_script( '" + _.slugify(self.themename) + "-theme', get_template_directory_uri() . '/js/theme.js', array('jquery'), '0.0.1' );\n  if (in_array($_SERVER['SERVER_ADDR'], ['127.0.0.1', '192.168.50.4']) || pathinfo($_SERVER['SERVER_NAME'], PATHINFO_EXTENSION) == 'dev') {\n    wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js', '', false, true );\n  }\n $2"
+        result = result.replace(/(get_stylesheet_uri\(\) \);\n)(\n.wp_enqueue_script\()/, themejs);
+      }
       fs.writeFileSync(file, result, 'utf8');
     }
-    else if (stat.isFile() && path.basename(file) == 'epigone.pot') {
+    else if (stat.isFile() && path.basename(file) == '_s.pot') {
       self.log.info('Renaming language file ' + chalk.yellow(file));
       fs.renameSync(file, path.join(path.dirname(file), _.slugify(self.themename) + '.pot'));
     }
@@ -135,8 +143,8 @@ function findandreplace(dir) {
       var result;
       self.log.info('replace browserSync proxy host' + chalk.yellow(file));
       result = data.replace(/your-domain.dev/g, "" + self.devurl + "");
-      result = result.replace(/epigone_main/g, "" + _.underscored(_.slugify(self.themename)) + "_main");
-      result = result.replace(/epigone_scripts/g, "" + _.underscored(_.slugify(self.themename)) + "_scripts");
+      // result = result.replace(/epigone_main/g, "" + _.underscored(_.slugify(self.themename)) + "_main");
+      // result = result.replace(/epigone_scripts/g, "" + _.underscored(_.slugify(self.themename)) + "_scripts");
     }
     else if (stat.isFile() && path.basename(file) == 'README.md') {
       self.log.info('Updating ' + chalk.yellow(file));
@@ -150,7 +158,28 @@ function findandreplace(dir) {
   });
 }
 
-EpigoneGenerator.prototype.renameepigone = function renameepigone() {
+JrahSWPGenerator.prototype.renameunderscores = function renameunderscores() {
   findandreplace.call(this, '.');
   this.log.ok('Done replacing string ' + chalk.yellow('_s'));
+};
+
+WpUnderscoresGenerator.prototype.addfiles = function addfiles() {
+  this.log(chalk.yellow('Creating dev folders and files'));
+  this.mkdir('images');
+  this.mkdir('fonts');
+  this.mkdir('css');
+  this.mkdir('css/sass');
+  this.copy('_main.scss', 'css/sass/main.scss');
+  this.mkdir('js/vendor');
+  this.copy('_theme.js', 'js/theme.js');
+  this.copy('_package.json', 'package.json');
+  this.copy('_bower.json', 'bower.json');
+  this.copy('GulpFile.js');
+  this.copy('_gitignore', '.gitignore');
+};
+
+WpUnderscoresGenerator.prototype.sassboostrap = function sassboostrap() {
+  if (this.sassBootstrap) {
+    this.bowerInstall([ 'sass-bootstrap' ], { save: true });
+  }
 };
