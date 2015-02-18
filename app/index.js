@@ -163,7 +163,7 @@ JrahSWPGenerator.prototype.renameunderscores = function renameunderscores() {
   this.log.ok('Done replacing string ' + chalk.yellow('_s'));
 };
 
-WpUnderscoresGenerator.prototype.addfiles = function addfiles() {
+JrahSWPGenerator.prototype.addfiles = function addfiles() {
   this.log(chalk.yellow('Creating dev folders and files'));
   this.mkdir('images');
   this.mkdir('fonts');
@@ -178,7 +178,7 @@ WpUnderscoresGenerator.prototype.addfiles = function addfiles() {
   this.copy('_gitignore', '.gitignore');
 };
 
-WpUnderscoresGenerator.prototype.sassboostrap = function sassboostrap() {
+JrahSWPGenerator.prototype.sassboostrap = function sassboostrap() {
   if (this.sassBootstrap) {
     this.bowerInstall([ 'sass-bootstrap' ], { save: true });
   }
