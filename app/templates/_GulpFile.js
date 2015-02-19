@@ -17,7 +17,7 @@ var scssDir = srcDir + 'scss/';
 
 
 // ## Theme for WordPress
-var projectName = "Theme";
+var projectName = "<%= themename %>";
 var themeName = '_' + projectName;
 var themeDir = 'themes/' + themeName + '/';
 
@@ -30,7 +30,7 @@ var cssDir  = themeDir;
 
 gulp.task('browser-sync', function() {
   browserSync({
-    proxy: "domain.dev"
+    proxy: "<%= devurl %>"
   });
 });
 

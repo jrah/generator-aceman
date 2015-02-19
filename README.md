@@ -1,27 +1,27 @@
-# generator-epigone [![Build Status](https://secure.travis-ci.org/kdo/generator-wp-underscores.png?branch=master)](https://travis-ci.org/kdo/generator-wp-underscores)
+# generator-jrah-underscores-wp [![Build Status](https://secure.travis-ci.org/kdo/generator-wp-underscores.png?branch=master)](https://travis-ci.org/kdo/generator-jrah-underscores-wp)
 
-A very simple [Yeoman](http://yeoman.io) generator for WordPress boilerplate theme [epigone](https://github.com/1shiharaT/epigone).
+A very simple [Yeoman](http://yeoman.io) generator for WordPress using underscore [epigone](https://github.com/jrah/generator-jrah-underscores-wp).
 
 
 ## Getting Started
 
-Install [Yeoman](http://yeoman.io)
+Install [Yeoman](http://yeoman.io):
 
 ```
 npm install -g yo
 ```
 
-Install generator-epigone
+Install generator:
 
 ```
-npm install -g generator-epigone
+npm install -g generator-jrah-underscores-wp
 ```
 
-Create a folder in your WordPress themes folder and initiate the generator
+Create a folder in your WordPress themes folder and initiate the generator:
 
 ```
 mkdir theme-name && cd $_
-yo epigone
+yo jrah-underscores-wp
 ```
 
 Answer some questions in the prompt and you're done!
@@ -29,7 +29,7 @@ Answer some questions in the prompt and you're done!
 Run
 
 ```
-gulp watch
+gulp
 ```
 to watch `.scss` files and browser sync.
 
@@ -41,3 +41,5 @@ to watch `.scss` files and browser sync.
 ## Credit
 
 [generator-wp-underscores](https://github.com/kdo/generator-wp-underscores)
+[generator-epigone](https://github.com/1shiharaT/epigone)
+

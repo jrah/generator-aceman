@@ -48,7 +48,7 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
   {
     name: 'themename',
     message: 'What is the name of your theme?',
-    default: 'Theme'
+    default: 'theme'
   },
   {
     name: 'themeuri',
@@ -62,7 +62,7 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
   },
   {
     name: 'authoruri',
-    message: 'What is your URL?',
+    message: 'What is the author URL?',
     default: 'http://jameshome.co'
   },
   {
@@ -72,7 +72,7 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
   },
   {
     name: 'devurl',
-    message: 'browserSync Proxy Domain?',
+    message: 'What is the browser proxy url? e.g. site.dev',
     default: 'domain.dev'
   }
   ];
@@ -94,19 +94,6 @@ JrahSWPGenerator.prototype.installunderscores = function installunderscores() {
   this.tarball(this.startertheme, '.', this.async());
 };
 
-JrahSWPGenerator.prototype.addfiles = function addfiles() {
-  this.log(chalk.yellow('Creating dev folders and files'));
-  this.mkdir('images');
-  this.mkdir('fonts');
-  this.mkdir('css');
-  this.mkdir('src/scss');
-  this.copy('_main.scss', 'src/scss/main.scss');
-  this.mkdir('js/vendor');
-  this.copy('_package.json', 'package.json');
-  this.copy('_bower.json', 'bower.json');
-  this.copy('GulpFile.js');
-  this.copy('_gitignore', '.gitignore');
-};
 
 function findandreplace(dir) {
   var self = this;
@@ -136,7 +123,6 @@ function findandreplace(dir) {
         result = result.replace(/(Version: )(.+)/g, '$10.0.1');
         result = result.replace(/(\*\/\n)/, '$1@import url("css/main.css");');
       }
-
       else if (file == 'footer.php') {
         self.log.info('Updating theme information in ' + file);
         result = result.replace(/http:\/\/automattic.com\//g, self.authoruri);
@@ -149,17 +135,26 @@ function findandreplace(dir) {
       }
       fs.writeFileSync(file, result, 'utf8');
     }
-    else if (stat.isFile() && path.basename(file) == 'README.md') {
-      self.log.info('Updating ' + chalk.yellow(file));
-      var data = fs.readFileSync(file, 'utf8');
-      var result = data.replace(/((.|\n)*)Getting Started(.|\n)*/i, '$1');
-      fs.writeFileSync(file, result, 'utf8');
-    }
     else if (stat.isDirectory()) {
       findandreplace.call(self, file);
     }
   });
 }
+
+JrahSWPGenerator.prototype.addfiles = function addfiles() {
+  this.log(chalk.yellow('Creating dev folders and files'));
+  this.mkdir('images');
+  this.mkdir('fonts');
+  this.mkdir('css');
+  this.mkdir('src/scss');
+  this.copy('_main.scss', 'src/scss/main.scss');
+  this.mkdir('js/vendor');
+  this.copy('_package.json', 'package.json');
+  this.copy('_bower.json', 'bower.json');
+  this.copy('_GulpFile.js', 'GulpFile.js');
+  this.copy('_gitignore', '.gitignore');
+};
+
 
 JrahSWPGenerator.prototype.renameunderscores = function renameunderscores() {
   findandreplace.call(this, '.');
