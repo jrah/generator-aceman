@@ -90,15 +90,14 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
 
 JrahSWPGenerator.prototype.installunderscores = function installunderscores() {
   this.startertheme = 'https://github.com/Automattic/_s/archive/master.tar.gz';
-  this.log.info('Downloading & extracting ' + chalk.yellow('Underscores'));
-  this.tarball(this.startertheme, '.', this.async());
+  this.log.info('Downloading & extracting ' + chalk.yellow('Underscores by Automattic'));
+  this.tarball(this.startertheme, this.themename, this.async());
 };
 
 
 function findandreplace(dir) {
   var self = this;
   var _ = this._;
-
   var files = fs.readdirSync(dir);
   files.forEach(function (file) {
     file = path.join(dir, file);
@@ -130,7 +129,7 @@ function findandreplace(dir) {
       }
       else if (file == 'functions.php') {
         self.log.info('Updating theme information in ' + file);
-        var themejs = "$1  wp_enqueue_script( '" + _.slugify(self.themename) + "-theme', get_template_directory_uri() . '/js/theme.js', array('jquery'), '0.0.1' );\n  if (in_array($_SERVER['SERVER_ADDR'], ['127.0.0.1', '192.168.50.4']) || pathinfo($_SERVER['SERVER_NAME'], PATHINFO_EXTENSION) == 'dev') {\n    wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js', '', false, true );\n  }\n $2"
+        var themejs = "$1  wp_enqueue_script( '" + _.slugify(self.themename) + "-theme', get_template_directory_uri() . '/js/theme.js', array('jquery'), '0.0.1' ); }\n $2"
         result = result.replace(/(get_stylesheet_uri\(\) \);\n)(\n.wp_enqueue_script\()/, themejs);
       }
       fs.writeFileSync(file, result, 'utf8');
@@ -142,13 +141,16 @@ function findandreplace(dir) {
 }
 
 JrahSWPGenerator.prototype.addfiles = function addfiles() {
+  var self = this;
+  var _ = this._;
+  var themdirectory = _.slugify(self.themename);
   this.log(chalk.yellow('Creating dev folders and files'));
-  this.mkdir('images');
-  this.mkdir('fonts');
-  this.mkdir('css');
+  this.mkdir(themdirectory + '/images');
+  this.mkdir(themdirectory + '/fonts');
+  this.mkdir(themdirectory +'/css');
   this.mkdir('src/scss');
   this.copy('_main.scss', 'src/scss/main.scss');
-  this.mkdir('js/vendor');
+  this.mkdir(themdirectory +'/js/vendor');
   this.copy('_package.json', 'package.json');
   this.copy('_bower.json', 'bower.json');
   this.copy('_GulpFile.js', 'GulpFile.js');
