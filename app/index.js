@@ -4,6 +4,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var fs = require('fs');
 var chalk = require('chalk');
+var rimraf = require('rimraf');
 
 var hello =
 chalk.blue.bold("\n ______________") +
@@ -145,9 +146,6 @@ JrahSWPGenerator.prototype.addfiles = function addfiles() {
   var _ = this._;
   var themdirectory = _.slugify(self.themename);
   this.log(chalk.yellow('Creating dev folders and files'));
-  this.mkdir(themdirectory + '/images');
-  this.mkdir(themdirectory + '/fonts');
-  this.mkdir(themdirectory +'/css');
   this.mkdir('src/scss');
   this.copy('_main.scss', 'src/scss/main.scss');
   this.mkdir(themdirectory +'/js/vendor');
@@ -168,4 +166,14 @@ JrahSWPGenerator.prototype.sassboostrap = function sassboostrap() {
   if (this.sassBootstrap) {
     this.bowerInstall([ 'sass-bootstrap' ], { save: true });
   }
+};
+
+JrahSWPGenerator.prototype.removeDir = function removeDir () {
+    var cb = this.async(),
+        self = this;
+
+    rimraf(this.themename + '/sass', function () {
+        self.log.info('Removing default Sass directory');
+        cb();
+    });
 };
