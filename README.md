@@ -1,6 +1,6 @@
-# generator-jrah-underscores-wp [![Build Status](https://secure.travis-ci.org/kdo/generator-wp-underscores.png?branch=master)](https://travis-ci.org/kdo/generator-jrah-underscores-wp)
 
-A very simple [Yeoman](http://yeoman.io) generator for WordPress using underscore [epigone](https://github.com/jrah/generator-jrah-underscores-wp).
+
+A very simple [Yeoman](http://yeoman.io) generator for WordPress using underscore [jrah-underscores-wp](https://github.com/jrah/generator-jrah-underscores-wp).
 
 
 ## Getting Started
