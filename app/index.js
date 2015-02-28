@@ -92,7 +92,7 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
 JrahSWPGenerator.prototype.installunderscores = function installunderscores() {
   this.startertheme = 'https://github.com/Automattic/_s/archive/master.tar.gz';
   this.log.info('Downloading & extracting ' + chalk.yellow('Underscores by Automattic'));
-  this.tarball(this.startertheme, this.themename, this.async());
+  this.tarball(this.startertheme, 'themes/' + this.themename, this.async());
 };
 
 
@@ -173,7 +173,7 @@ JrahSWPGenerator.prototype.removeDir = function removeDir () {
         self = this;
 
     rimraf(this.themename + '/sass', function () {
-        self.log.info('Removing default Sass directory');
+        self.log.info('Removing default Underscores Sass directory');
         cb();
     });
 };

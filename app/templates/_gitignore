@@ -2,7 +2,10 @@ node_modules
 bower_components
 .sass-cache
 .DS_Store
-
+*.log
+sitemap.xml
+sitemap.xml.gz
+composer.lock
 
 themes/twentyfifteen
 themes/twentyfourteen
