@@ -27,6 +27,7 @@
     "rimraf": "^*"
   },
   "devDependencies": {
+    "gulp-header": "^1.2.2",
     "mocha": "~1.12.0"
   },
   "peerDependencies": {
