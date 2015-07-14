@@ -9,11 +9,12 @@ var sass =  require('gulp-ruby-sass'),
     browserSync = require('browser-sync'),
     reload = browserSync.reload
 
-// # declare location variables
+// # var
 
-// ## Sass
+// ## paths
 var srcDir = 'src/';
 var scssDir = srcDir + 'scss/';
+var jsDir = srcDir + 'js/';
 
 
 // ## Theme for WordPress
