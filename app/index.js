@@ -147,7 +147,7 @@ JrahSWPGenerator.prototype.addfiles = function addfiles() {
   var themdirectory = _.slugify(self.themename);
   this.log(chalk.yellow('Creating dev folders and files'));
   this.mkdir('src/scss');
-  this.copy('_main.scss', 'src/scss/main.scss');
+  this.copy('_main.scss', 'src/scss/style.scss');
   this.mkdir('src/js/');
   this.copy('_package.json', 'package.json');
   this.copy('_bower.json', 'bower.json');
@@ -171,8 +171,7 @@ JrahSWPGenerator.prototype.sassboostrap = function sassboostrap() {
 JrahSWPGenerator.prototype.removeDir = function removeDir () {
     var cb = this.async(),
         self = this;
-
-    rimraf('themes/' + this.themename + '/sass', function () {
+    rimraf('themes/_' + this.themename + '/sass', function () {
         self.log.info('Removing default Underscores Sass directory');
         cb();
     });
