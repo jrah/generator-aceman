@@ -6,12 +6,17 @@ var gulp = require('gulp');
 
 var sass =  require('gulp-ruby-sass'),
     notify = require('gulp-notify'),
-    browserSync = require('browser-sync'),
-    reload = browserSync.reload
+    sourcemaps = require('gulp-sourcemaps'),
+    concat = require('gulp-concat'),
+    uglify = require('gulp-uglify'),
+    minifyCSS = require('gulp-minify-css'),
+    rename = require('gulp-rename'),
+    zip = require('gulp-zip'),
+    browserSync = require('browser-sync').create();
 
 // # var
 
-// ## paths
+// ## source paths
 var srcDir = 'src/';
 var scssDir = srcDir + 'scss/';
 var jsDir = srcDir + 'js/';
@@ -50,39 +55,61 @@ gulp.task('browser-sync', function() {
   });
 });
 
-
-// # sass compile
-gulp.task('sass', function() {
-  // locates Sass
-  return gulp.src(scssDir + '*.scss')
-  // source maps none is true
-  .pipe(sass({'sourcemap=none': true}))
-    // outputs CSS
-   .pipe(gulp.dest(cssDir))
-   .pipe(notify("Sass has compiled!"))
-   // reloads the browser
-   .pipe(reload({stream:true}));
+gulp.task('concatScripts', function(){
+  return gulp.src([
+    'bower_components/...',
+    'src/js/app.js'
+  ]).pipe(concat("app.js"))
+  .pipe(gulp.dest(themeDir + 'js/'))
 });
 
-gulp.task('build', function() {
-  // locates Sass
-  return gulp.src(scssDir + '*.scss')
-  // source maps none is true
-  .pipe(sass({'sourcemap=none': true, style: 'compressed'}))
-  // .pipe(minifyCSS({ keepSpecialComments: 1 }))
-    // outputs CSS but before inject banner
-    .pipe(header(banner))
-   .pipe(gulp.dest(cssDir))
-
-   .pipe(notify("Sass has compiled!"))
-   // reloads the browser
-   .pipe(reload({stream:true}));
+gulp.task('minifyScripts', ['concatScripts'], function(){
+  return gulp.src(jsDir + 'app.js')
+  .pipe(uglify())
+  .pipe(rename('app.min.js'))
+  .pipe(gulp.dest(themeDir + 'js/'))
+  .pipe(browserSync.stream({match: themeDir + '**/*.js'}));
 });
+
+gulp.task('minifyCSS', function(){
+  return gulp.src(themeDir + 'style.css')
+  .pipe(minifyCSS())
+  .pipe(rename('style.min.css'))
+  .pipe(gulp.dest(themeDir +'css/'))
+  .pipe(browserSync.stream({match: themeDir + '**/*.css'}));
+});
+
+
+// ## default dependent on scss
+gulp.task('scss', function(){
+  return sass(scssDir + 'style.scss', {sourcemap: true } )
+  .on('error', function(err){
+    console.error('Error!', err.message);
+  })
+  .pipe(sourcemaps.write('./', {
+    includeContent: false,
+    sourceRoot: scssDir + 'style.scss'
+  }))
+  .pipe(gulp.dest(themeDir))
+  .pipe(browserSync.stream({match: themeDir + '**/*.css'}));
+});
+
+// build and zip theme
+
+gulp.task('build', ['minifyScripts', 'minifyCSS'], function(){
+  return gulp.src(themeDir, { base: './'});
+  .pipe(zip('<%= themename %>'))
+  .pipe(gulp.dest('dist'));
+  })
+
 
 // compile sass, watch directory for browser sync
-gulp.task('default', ['sass','browser-sync'], function () {
-  // watch sass directory
+gulp.task('default', ['sass'], function () {
+  .browserSync.init({
+    proxy: "<%= devurl %>"
+  });
+  // watch sass and php directory
   gulp.watch(scssDir + '**/**/*.scss', ['sass']);
-  gulp.watch(scssDir + '/'+ themeName + '/*.php');
-
+  gulp.watch(themeDir + '/*.php').on('change', browserSync.reload);
 });
+

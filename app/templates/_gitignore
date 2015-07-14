@@ -12,6 +12,12 @@ themes/twentyfourteen
 themes/twentyfourteen
 themes/twentythirteen
 themes/twenty*
+uploads/
+
+themes/**/*.css
+themes/**/*.js
 
 .travis.yml
 npm-debug.log
+
+*.zip
