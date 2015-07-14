@@ -78,16 +78,16 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
   },
   {
     type: 'confirm',
-    name: 'bourbon',
+    name: 'Susy',
+    message: 'Would you like to include Susy?',
+    default: true
+
+  },
+    {
+    type: 'confirm',
+    name: 'Bourbon',
     message: 'Would you like to include Bourbon?',
     default: true
-  },
-  {
-    type: 'confirm',
-    name: 'susy',
-    message: 'Would you like to include Susy?',
-    default: false
-
   }
 
   ];
@@ -99,8 +99,10 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
     this.authoruri = props.authoruri;
     this.themedescription = props.themedescription;
     this.devurl = props.devurl;
-    this.bourbon = props.bourbon;
-    this.susy = props.susy;
+    // Susy and Bourbon can't have the same var 
+    this.Susy = props.Susy;
+    this.Bourbon = props.Bourbon;
+
     cb();
   }.bind(this));
 };
@@ -162,7 +164,7 @@ JrahSWPGenerator.prototype.addfiles = function addfiles() {
   var _ = this._;
   var themdirectory = _.slugify(self.themename);
   this.log(chalk.yellow('Creating dev folders and files'));
-  this.mkdir('src/scss');
+  this.mkdir('src/scss/vendor');
   this.copy('_main.scss', 'src/scss/style.scss');
   this.mkdir('src/js/');
   this.copy('_package.json', 'package.json');
@@ -178,18 +180,18 @@ JrahSWPGenerator.prototype.renameunderscores = function renameunderscores() {
 };
 
 
-JrahSWPGenerator.prototype.bourbon = function bourbon() {
-  if (this.bourbon) {
-    this.bowerInstall([ 'bourbon' ], { save: true });
-  }
-};
 
-JrahSWPGenerator.prototype.bourbon = function bourbon() {
-  if (this.susy) {
+JrahSWPGenerator.prototype.susy = function susy() {
+  if (this.Susy) {
     this.bowerInstall([ 'susy' ], { save: true });
   }
 };
 
+JrahSWPGenerator.prototype.bourbon = function bourbon() {
+  if (this.Bourbon) {
+    this.bowerInstall([ 'bourbon' ], { save: true });
+  }
+};
 
 JrahSWPGenerator.prototype.removeDir = function removeDir () {
     var cb = this.async(),

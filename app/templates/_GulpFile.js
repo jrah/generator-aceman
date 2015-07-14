@@ -96,12 +96,16 @@ gulp.task('scss', function(){
 
 // build and zip theme
 
-gulp.task('build', ['minifyScripts', 'minifyCSS'], function(){
+gulp.task('build-zip', ['minifyScripts', 'minifyCSS'], function(){
   return gulp.src(themeDir, { base: './'});
   .pipe(zip('<%= themename %>'))
   .pipe(gulp.dest('dist'));
   })
 
+gulp.task('build', ['minifyScripts', 'minifyCSS'], function(){
+  return gulp.src(themeDir, { base: './'});
+  .pipe(gulp.dest('dist'));
+  })
 
 // compile sass, watch directory for browser sync
 gulp.task('default', ['sass'], function () {
