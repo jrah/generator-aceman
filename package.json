@@ -1,5 +1,5 @@
 {
-  "name": "generator-jrah-underscores-wp",
+  "name": "generator-aceman",
   "version": "0.0.6",
   "description": "Yeoman generator for _s theme",
   "keywords": [
@@ -8,15 +8,15 @@
     "jrah",
     "boilerplate"
   ],
-  "homepage": "https://github.com/jrah/generator-jrah-underscores-wp",
-  "bugs": "https://github.com/jrah/generator-jrah-underscores-wp/issues",
+  "homepage": "https://github.com/jrah/generator-aceman",
+  "bugs": "https://github.com/jrah/generator-aceman/issues",
   "author": {
     "name": "1shiharaT"
   },
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/jrah/generator-jrah-underscores-wp.git"
+    "url": "git://github.com/jrah/generator-aceman.git"
   },
   "scripts": {
     "test": "mocha"
