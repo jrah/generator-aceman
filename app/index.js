@@ -75,7 +75,21 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
     name: 'devurl',
     message: 'What is the browser proxy url? e.g. site.dev',
     default: 'domain.dev'
+  },
+  {
+    type: 'confirm',
+    name: 'bourbon',
+    message: 'Would you like to include Bourbon?',
+    default: true
+  },
+  {
+    type: 'confirm',
+    name: 'susy',
+    message: 'Would you like to include Susy?',
+    default: false
+
   }
+
   ];
 
   this.prompt(prompts, function (props) {
@@ -85,6 +99,8 @@ JrahSWPGenerator.prototype.askFor = function askFor() {
     this.authoruri = props.authoruri;
     this.themedescription = props.themedescription;
     this.devurl = props.devurl;
+    this.bourbon = props.bourbon;
+    this.susy = props.susy;
     cb();
   }.bind(this));
 };
@@ -162,11 +178,18 @@ JrahSWPGenerator.prototype.renameunderscores = function renameunderscores() {
 };
 
 
-JrahSWPGenerator.prototype.sassboostrap = function sassboostrap() {
-  if (this.sassBootstrap) {
-    this.bowerInstall([ 'sass-bootstrap' ], { save: true });
+JrahSWPGenerator.prototype.bourbon = function bourbon() {
+  if (this.bourbon) {
+    this.bowerInstall([ 'bourbon' ], { save: true });
   }
 };
+
+JrahSWPGenerator.prototype.bourbon = function bourbon() {
+  if (this.susy) {
+    this.bowerInstall([ 'susy' ], { save: true });
+  }
+};
+
 
 JrahSWPGenerator.prototype.removeDir = function removeDir () {
     var cb = this.async(),
