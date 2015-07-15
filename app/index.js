@@ -167,6 +167,7 @@ JrahSWPGenerator.prototype.addfiles = function addfiles() {
   this.mkdir('src/scss/vendor');
   this.copy('_main.scss', 'src/scss/style.scss');
   this.mkdir('src/js/');
+  this.copy('_app.js', 'src/js/app.js');
   this.copy('_package.json', 'package.json');
   this.copy('_bower.json', 'bower.json');
   this.copy('_GulpFile.js', 'GulpFile.js');
